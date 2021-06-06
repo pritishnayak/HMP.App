@@ -33,7 +33,7 @@ namespace Hmp.App.Api
             return summary;
         }
 
-        [Function("WeatherForecast")]
+        [Function(FunctionName)]
         public static async Task<HttpResponseData> RunAsync(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequestData req,
             FunctionContext executionContext)
@@ -51,8 +51,7 @@ namespace Hmp.App.Api
                 Summary = GetSummary(temp)
             }).ToArray();
 
-            var response = req.CreateResponse(HttpStatusCode.OK);
-            response.Headers.Add("Content-Type", "application/json");
+            var response = req.CreateResponse();
             await response.WriteAsJsonAsync(forecastData);
 
             return response;
